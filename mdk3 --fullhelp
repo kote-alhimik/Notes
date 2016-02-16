@@ -1,0 +1,192 @@
+mdk3 --fullhelp
+
+DK 3.0 v6 - "Да ну, вообщем, непринципиально!"
+от 'ASPj of k2wrlz', используя библиотеки aircrack-ng
+И большой помощью aircrack-ng сообщества:
+Antragon, moongray, Ace, Zero_Chaos, Hirte, thefkboss, ducttape,
+telek0miker, Le_Vert, sorbo, Andy Green, bahathir and Dawid Gajownik
+СПАСИБО ВАМ!
+
+MDK это утилита предназначенная для эксплуатирования уязвимостей протокола IEEE 802.11.
+ВАЖНО: У вас должны быть возможности администратора. Если их нет, то устараните проблему и перезапустите MDK заново.
+
+Эта программа распростроняется под лицензией GPLv2
+
+MDK как пользоваться:
+Это самый простой шаблон для данной программы.
+mdk3 <interface> <test_mode> [test_options]
+Где <interface> заменяем на имя вашей сетевой карты в режиме монитора.
+Где <test_mode> заменяем на режимы работы MDK3.
+Где [test_options] это наши ОПЦИИ.
+
+Попробуйте ввести в командную строку mdk3 --fullhelp для того что бы увидеть данное полное руководство на английском в терминале.
+Введите mdk3 --help <test_mode> Для отоброжения информации о режимах работы.
+
+TEST MODES:
+b   - Режим лавинной рассылки маяка
+      Отправляет сигналы "неисправность", чтобы обмануть точки доступа.
+      Это может иногда разрушать сетевые сканеры и даже драйверы!
+a   - Аутентификация: режим DoS
+      Передает кадры аутентификации ко всем AP, найденным в диапазоне.
+      Слишком много клиентов тормазят работу и сбрасывает некоторые Точки Доступа.
+p   - Basic probing and ESSID Bruteforce mode
+      Probes AP and check for answer, useful for checking if SSID has
+      been correctly decloaked or if AP is in your adaptors sending range
+      SSID Bruteforcing is also possible with this test mode.
+d   - Deauthentication / Disassociation Amok Mode
+      Kicks everybody found from AP
+m   - Michael shutdown exploitation (TKIP)
+      Cancels all traffic continuously
+x   - 802.1X tests
+w   - WIDS/WIPS Confusion
+      Confuse/Abuse Intrusion Detection and Prevention Systems
+f   - MAC filter bruteforce mode
+      This test uses a list of known client MAC Adresses and tries to
+      authenticate them to the given AP while dynamically changing
+      its response timeout for best performance. It currently works only
+      on APs who deny an open authentication request properly
+g   - WPA Downgrade test
+      deauthenticates Stations and APs sending WPA encrypted packets.
+      With this test you can check if the sysadmin will try setting his
+      network to WEP or disable encryption.
+
+
+b   - Beacon Flood Mode
+      Sends beacon frames to show fake APs at clients.
+      This can sometimes crash network scanners and even drivers!
+      OPTIONS:
+      -n <ssid>
+         Use SSID <ssid> instead of randomly generated ones
+      -f <filename>
+         Read SSIDs from file
+      -v <filename>
+         Read MACs and SSIDs from file. See example file!
+      -d
+         Show station as Ad-Hoc
+      -w
+         Set WEP bit (Generates encrypted networks)
+      -g
+         Show station as 54 Mbit
+      -t
+         Show station using WPA TKIP encryption
+      -a
+         Show station using WPA AES encryption
+      -m
+         Use valid accesspoint MAC from OUI database
+      -h
+         Hop to channel where AP is spoofed
+         This makes the test more effective against some devices/drivers
+         But it reduces packet rate due to channel hopping.
+      -c <chan>
+         Fake an AP on channel <chan>. If you want your card to hop on
+         this channel, you have to set -h option, too!
+      -s <pps>
+         Set speed in packets per second (Default: 50)
+a   - Authentication DoS mode
+      Sends authentication frames to all APs found in range.
+      Too much clients freeze or reset almost every AP.
+      OPTIONS:
+      -a <ap_mac>
+         Only test the specified AP
+      -m
+         Use valid client MAC from OUI database
+      -c
+         Do NOT check for test being successful
+      -i <ap_mac>
+         Perform intelligent test on AP (-a and -c will be ignored)
+         This test connects clients to the AP and reinjects sniffed data to keep them alive
+      -s <pps>
+         Set speed in packets per second (Default: unlimited)
+p   - Basic probing and ESSID Bruteforce mode
+      Probes AP and check for answer, useful for checking if SSID has
+      been correctly decloaked or if AP is in your adaptors sending range
+      Use -f and -t option to enable SSID Bruteforcing.
+      OPTIONS:
+      -e <ssid>
+         Tell mdk3 which SSID to probe for
+      -f <filename>
+         Read lines from file for bruteforcing hidden SSIDs
+      -t <bssid>
+         Set MAC adress of target AP
+      -s <pps>
+         Set speed (Default: unlimited, in Bruteforce mode: 300)
+      -b <character set>
+         Use full Bruteforce mode (recommended for short SSIDs only!)
+         Use this switch only to show its help screen.
+d   - Deauthentication / Disassociation Amok Mode
+      Kicks everybody found from AP
+      OPTIONS:
+      -w <filename>
+         Read file containing MACs not to care about (Whitelist mode)
+      -b <filename>
+         Read file containing MACs to run test on (Blacklist Mode)
+      -s <pps>
+         Set speed in packets per second (Default: unlimited)
+      -c [chan,chan,chan,...]
+         Enable channel hopping. Without providing any channels, mdk3 will hop an all
+         14 b/g channels. Channel will be changed every 5 seconds.
+m   - Michael shutdown exploitation (TKIP)
+      Cancels all traffic continuously
+      -t <bssid>
+         Set Mac address of target AP
+      -w <seconds>
+         Seconds between bursts (Default: 10)
+      -n <ppb>
+         Set packets per burst (Default: 70)
+      -j
+         Use the new TKIP QoS-Exploit
+         Needs just a few packets to shut AP down!
+      -s <pps>
+         Set speed (Default: 400)
+x   - 802.1X tests
+      0 - EAPOL Start packet flooding
+            -n <ssid>
+               Use SSID <ssid>
+            -t <bssid>
+               Set MAC address of target AP
+            -w <WPA type>
+               Set WPA type (1: WPA, 2: WPA2/RSN; default: WPA)
+            -u <unicast cipher>
+               Set unicast cipher type (1: TKIP, 2: CCMP; default: TKIP)
+            -m <multicast cipher>
+               Set multicast cipher type (1: TKIP, 2: CCMP; default: TKIP)
+            -s <pps>
+               Set speed (Default: 400)
+      1 - EAPOL Logoff test
+            -t <bssid>
+               Set MAC address of target AP
+            -c <bssid>
+               Set MAC address of target STA
+            -s <pps>
+               Set speed (Default: 400)
+w   - WIDS/WIPS/WDS Confusion
+      Confuses a WDS with multi-authenticated clients which messes up routing tables
+      -e <SSID>
+         SSID of target WDS network
+      -c [chan,chan,chan...]
+         Use channel hopping
+      -z
+         activate Zero_Chaos' WIDS exploit
+         (authenticates clients from a WDS to foreign APs to make WIDS go nuts)
+f   - MAC filter bruteforce mode
+      This test uses a list of known client MAC Adresses and tries to
+      authenticate them to the given AP while dynamically changing
+      its response timeout for best performance. It currently works only
+      on APs who deny an open authentication request properly
+      -t <bssid>
+         Target BSSID
+      -m <mac>
+         Set the MAC adress range to use (3 bytes, i.e. 00:12:34)
+         Without -m, the internal database will be used
+      -f <mac>
+         Set the MAC adress to begin bruteforcing with
+         (Note: You can't use -f and -m at the same time)
+g   - WPA Downgrade test
+      deauthenticates Stations and APs sending WPA encrypted packets.
+      With this test you can check if the sysadmin will try setting his
+      network to WEP or disable encryption. mdk3 will let WEP and unencrypted
+      clients work, so if the sysadmin simply thinks "WPA is broken" he
+      sure isn't the right one for this job.
+      (this can/should be combined with social engineering)
+      -t <bssid>
+         Target network
